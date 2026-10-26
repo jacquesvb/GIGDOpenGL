@@ -9,10 +9,14 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type);
 
 unsigned int make_shader(const std::string& vertex_filepath, const std::string& fragment_filepath)
 {
+    // To store all the shader modules
     std::vector<unsigned int> modules;
+    // Add a vertex shader module
     modules.push_back(make_module(vertex_filepath, GL_VERTEX_SHADER));
+    // Add a fragment shader module
     modules.push_back(make_module(fragment_filepath, GL_FRAGMENT_SHADER));
 
+    // Attach all the modules then link the program
     unsigned int shader = glCreateProgram();
     for (unsigned int shaderModule : modules) 
     {
@@ -20,6 +24,7 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
     }
     glLinkProgram(shader);
 
+    // Check the linking worked
     int success;
     glGetProgramiv(shader, GL_LINK_STATUS, &success);
     if (!success) {
@@ -28,6 +33,7 @@ unsigned int make_shader(const std::string& vertex_filepath, const std::string& 
         std::cout << "Shader Linking error:\n" << errorLog << std::endl;
     }
 
+    // Modules are now unneeded and can be freed
     for (unsigned int shaderModule : modules)
     {
         glDeleteShader(shaderModule);
@@ -42,12 +48,8 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type)
     std::string line;
 
     file.open(filepath);
-    if (!file.is_open()) {
-        std::cout << "Failed to open shader file: " << filepath << std::endl;
-        return 0;
-    }
     while (std::getline(file, line)) {
-        bufferedLines << line << "\n";
+        bufferedLines << line << '\n';
     }
     std::string shaderSource = bufferedLines.str();
     const char* shaderSrc = shaderSource.c_str();
@@ -79,7 +81,6 @@ int main()
     GLFWwindow* window = nullptr;
 
     if (!glfwInit()) {
-        std::cout << "GLFW couldn't start" << std::endl;
         return -1;
     }
 
@@ -89,21 +90,17 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
     window = glfwCreateWindow(640, 480, "Hello Window!", nullptr, nullptr);
-    if (window == nullptr) {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
     glfwMakeContextCurrent(window);
-    
+
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Couldn't load opengl" << std::endl;
         glfwTerminate();
         return -1;
     }
     
+    // Set up OpenGL
     glClearColor(0.25f, 0.5f, 0.75f, 1.0f);
-
+    // Set the rendering region to the actual screen size
     int fbWidth, fbHeight;
     glfwGetFramebufferSize(window, &fbWidth, &fbHeight);
     glViewport(0, 0, fbWidth, fbHeight);

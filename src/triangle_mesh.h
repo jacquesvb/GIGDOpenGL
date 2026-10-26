@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class TriangleMesh
 {
@@ -8,5 +9,6 @@ class TriangleMesh
         ~TriangleMesh();
     
     private:
-        unsigned int VBO, VAO, vertex_count;
+        unsigned int EBO, VAO, element_count;
+        std::vector<unsigned int> VBOs;
 };
