@@ -1,3 +1,0 @@
-/home/jacquesvb/Workspace/Cpp/GIGDOpenGL/build/CMakeFiles/hello_window.dir
-/home/jacquesvb/Workspace/Cpp/GIGDOpenGL/build/CMakeFiles/edit_cache.dir
-/home/jacquesvb/Workspace/Cpp/GIGDOpenGL/build/CMakeFiles/rebuild_cache.dir

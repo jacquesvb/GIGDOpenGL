@@ -10,6 +10,12 @@ add_executable(
     src/glad.c
 )
 
-target_include_directories(hello_window PRIVATE dependencies)
+target_include_directories(hello_window PRIVATE
+    dependencies
+    dependencies/glm
+)
 
-target_link_libraries(hello_window PRIVATE glfw OpenGL::GL)
+target_link_libraries(hello_window PRIVATE
+    glfw
+    OpenGL::GL
+)
